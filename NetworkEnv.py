@@ -47,7 +47,7 @@ class NetworkEnv:
 
     def step(self, action):
         # Execute one time step within the environment
-        if self.state_observation == np.zeros([5,10]):
+        if  np.all((self.state_observation ==0)):
             self.done = True
             return self.state_observation, self.reward, self.done, self.episode_length
         elif self.episode_length > 200:
@@ -109,13 +109,13 @@ class NetworkEnv:
                     elif i==1:
                         if packet!=2:
                             q2.insert(0,packet)         ## Managing routing algorithm for each qeueu starting by q1 and 
-                            reward += -1                ## along with each corresponding action, if the packet is routed 
+                            reward += -(10-q2.count(0))              ## along with each corresponding action, if the packet is routed 
                         else:                           ## to its destination it disapears from our env and we get a +10 reward
                             reward += 10                ## if not it is added to the top of the next queue with a reward of -1                
                     elif i==2:
                         if packet!=5:
                             q5.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q5.count(0))
                         else:
                             reward += 10                 ## if statement are determined by the available actions based on 
                     count+=1                             ## network topology and encoded actions
@@ -126,19 +126,19 @@ class NetworkEnv:
                     elif i==1:
                         if packet!=4:
                             q4.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q4.count(0))
                         else:
                             reward += 10  
                     elif i==2:
                         if packet!=3:
                             q3.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q3.count(0))
                         else:
                             reward += 10
                     elif i==3:
                         if packet!=1:
                             q1.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q1.count(0))
                         else:
                             reward += 10
                     count+=1
@@ -149,19 +149,19 @@ class NetworkEnv:
                     elif i==1:
                         if packet!=2:
                             q2.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q2.count(0))
                         else:
                             reward += 10
                     elif i==2:
                         if packet!=4:
                             q4.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q4.count(0))
                         else:
                             reward += 10
                     elif i==3:
                         if packet!=5:
                             q5.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q5.count(0))
                         else:
                             reward += 10
                     count+=1
@@ -173,19 +173,19 @@ class NetworkEnv:
                     elif i==1:
                         if packet!=5:
                             q5.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q5.count(0))
                         else:
                             reward += 10
                     elif i==2:
                         if packet!=3:            
                             q3.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q3.count(0))
                         else:
                             reward += 10
                     elif i==3:
                         if packet!=2:
                             q2.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q2.count(0))
                         else:
                             reward += 10
                     count+=1
@@ -196,19 +196,19 @@ class NetworkEnv:
                     elif i==1:
                         if packet!=1:
                             q1.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q1.count(0))
                         else:
                             reward += 10
                     elif i==2:
                         if packet!=3:
                             q3.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q3.count(0))
                         else:
                             reward += 10
                     elif i==3:
                         if packet!=4:
                             q4.insert(0,packet)
-                            reward += -1
+                            reward += -(10-q4.count(0))
                         else:
                             reward += 10
                     count+=1
