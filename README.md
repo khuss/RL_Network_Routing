@@ -16,6 +16,8 @@ For the sake of our problem we decided to model our environment based on a rando
 
 The WAN based network is defined in  `NetworkEnv.py` made of 5 nodes in a partial-mesh topology, connected by a full-duplex communication link, thus two linked nodes can send and receive packets to each other at the same time. Finally, the nodes all have a fixed queue size used as a First in First out to dispatch the packets to be processed.
 
+The environemnt has therefore a multidiscrete state space that is determined by  `[number of nodes x queue size]`.
+
 The specifications for the topology are defined in the `NetworkEnv` class definition and can be customized to another topolgy provided the `take_action` function is also changed accordingly.
 
 ### Step
@@ -31,6 +33,12 @@ Designing the reward function is essential to optimize for the required behaviou
 
 
 ## The Agent
+
+From the defined custom environment above, the multidiscrete action space and the nature of the problem we have decided to train the policy optimization algorithm actor-critic  defined in the `agent.py`. The benefits of having the advantage actor-critic algorithm is the critic's use of state values which will be useful to determine not only the actor's training but also the "goodness of our position"
+
+The actor-critic algorithm's s training process is defined in the figure below.
+
+In order for both the actor and the criticto interact with the state the following  convolutional networks were used.
 
 ## Traffic Generator
 
