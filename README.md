@@ -40,8 +40,20 @@ The actor-critic algorithm's s training process is defined in the figure below.
 
 In order for both the actor and the criticto interact with the state the following  convolutional networks were used.
 
-## Traffic Generator
+## Getting started
 
-## Example Notebook
+To get started download and install the packages in the requirements file:
+
+`pip install -r requirements.txt`
+
+Follow the example Notebook available in the repo to load the `Network_environment`, `A2C_agent`. A number of episodes is then created for training or testing the model.
+
+Episodes consists of randomly filled queues, and the agent will either train on or "play" the games created
 
 ## Results
+
+The following results compare our trained agent with a random agent after training on 3000 episodes.
+
+This proves that the agent has learned to adapt its choices based on the content of the qeueus. 
+
+It would now be interested to connect the environment to a traffic generator or real traffic and observe the variety of metrics available to compare to currently used Network traffic controllers.
