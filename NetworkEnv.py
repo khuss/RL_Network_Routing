@@ -55,7 +55,7 @@ class NetworkEnv:
             return self.state_observation, self.reward, self.done, self.episode_length
 
         self.action = action
-        self.state_observation, self.reward = self.take_action()
+        self.state_observation, self.reward = self.take_action(action)
         self.episode_length += 1
 
         return self.state_observation, self.reward, self.done, self.episode_length
@@ -63,7 +63,7 @@ class NetworkEnv:
     def random_step(self):
         self.action = self.random_action()
         print(self.action)
-        self.state_observation, self.reward = self.take_action()
+        self.state_observation, self.reward = self.take_action(self.action)
         return self.state_observation, self.reward, self.done, self.episode_length
         
 
@@ -79,10 +79,11 @@ class NetworkEnv:
         else:
             return l
 
-    def take_action(self):
-        action = self.action
+    def take_action(self, action):
+        #action = self.action
         q=self.state_observation.tolist()
         tmp = q.pop(0)
+
 
         #Actions (0: No routing for all)
         #N1, 1:route to N2, 2: route to N5
@@ -96,7 +97,8 @@ class NetworkEnv:
         q4 = self.Node_4Q[1:].tolist()      ## receive different quantity
         q5 = self.Node_5Q[1:].tolist()
         count = 0                         ## counter managing the multidiscrete action space
-        reward = 0                        ## initializng reward for current episode
+        reward = 0
+        ## initializng reward for current episode
         for i in action:
             packet = tmp[count]
             if packet != 0:

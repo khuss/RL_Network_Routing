@@ -1,15 +1,14 @@
+from networks import ActorCriticNetwork
 import numpy as np
 import pandas as pd
 import os
 import random
 import tensorflow as tf
-from tensorflow.keras.optimizers.legacy import Adam
+from tensorflow.keras.optimizers import Adam
 import tensorflow_probability as tfp
-from networks import ActorCriticNetwork
 from NetworkEnv import NetworkEnv as Ne
+from Agent import Agent as ag
 import matplotlib.pyplot as plt
-
-
 
 class Agent:
     def __init__(self, env_name, alpha=0.00025, gamma=0.99, n_actions=[4,4,4,4,4]):
@@ -18,6 +17,8 @@ class Agent:
         self.action = None
         self.actor_critic = ActorCriticNetwork(action_space=n_actions)
         self.env = Ne(env_name)
+        self.score_histories = []
+        self.episode_lengths = []
 
 
 
@@ -30,7 +31,6 @@ class Agent:
         action = action_probabilities.sample()
         log_prob = action_probabilities.log_prob(action)
         self.action = action
-        print(action)
 
         return action.numpy()
 
@@ -91,6 +91,7 @@ class Agent:
 
         if load_checkpoint:
             self.load_models()
+        episode = 0
 
         for i in df:
             observation,done, score = self.reset(i)
@@ -102,20 +103,21 @@ class Agent:
                 observation_, reward, done, info = self.env.step(action, observation)
                 score += reward
                 ohtob_ = preprocess(observation_)
-                print(score)
-                print(action)
-                print(observation)
+
                 if not load_checkpoint:
                     self.learn(ohtob, reward, ohtob_, done)
                 observation = observation_
                 score_history.append(score)
                 avg_score = np.mean(score_history[-100:])
-                print(done)
                 count +=1
                 if count >200:
                   done = True
                   score -= 500
-                
+            episode+=1    
+            print(episode) 
+            print(score) 
+            print(action)
+ 
             
 
             
@@ -123,6 +125,8 @@ class Agent:
                 best_score = avg_score
                 if not load_checkpoint:
                     self.save_models()
+            self.score_histories.append(score)
+            self.episode_lengths.append(count)
 
             #print('episode ', i, 'score %.1f' % score, 'avg_score %.1f' % avg_score)
 
@@ -130,7 +134,7 @@ class Agent:
           N = len(score_history)
           running_avg = np.empty(N)
           for t in range(N):
-            running_avg[t] = np.mean(scores[max(0, t - window):(t + 1)])
+            running_avg[t] = np.mean(score_history[max(0, t - 100):(t + 1)])
             if x is None:
               x = [i for i in range(N)]
             plt.ylabel('Score')
@@ -138,12 +142,11 @@ class Agent:
             plt.plot(x, running_avg)
             plt.savefig(filename)
 
-    def test(self, Model_name,df):
-        self.load(Model_name)
-        for e in range(100):
-          state = self.reset(df)
-          done = False
-          score = 0
+    def test(self,games):
+        episodes = games
+        for e in range(00):
+          state,score, done  - = self.reset(df)
+          cout  0
           while not done:
             print(done)
             one_hot_state = preprocess(state)
@@ -157,7 +160,7 @@ class Agent:
                 count +=1
             state, reward, done, _ = self.step(action)
             score += reward
-            print(score)
+          print(score)
  
           if done:
             print("episode: {}/{}, score: {}".format(e, self.EPISODES, score))
