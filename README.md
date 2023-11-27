@@ -14,6 +14,11 @@ As this trend keeps going simply increasing capacity may no longer be enough. To
 
 For the sake of our problem we decided to model our environment based on a random observed WAN (Wide area network) see figure below.
 
+
+<p align="center">
+<img src="https://github.com/khuss/RL_Network_Routing/blob/main/Images/WAN.png" width="400">
+</p>
+
 The WAN based network is defined in  `NetworkEnv.py` made of 5 nodes in a partial-mesh topology, connected by a full-duplex communication link, thus two linked nodes can send and receive packets to each other at the same time. Finally, the nodes all have a fixed queue size used as a First in First out to dispatch the packets to be processed.
 
 The environemnt has therefore a multidiscrete state space that is determined by  `[number of nodes x queue size]`.
@@ -38,13 +43,29 @@ From the defined custom environment above, the multidiscrete action space and th
 
 The actor-critic algorithm's s training process is defined in the figure below.
 
-In order for both the actor and the criticto interact with the state the following  convolutional networks were used.
+
+<p align="center">
+<img src="https://github.com/khuss/RL_Network_Routing/blob/main/Images/A2C.png" width="800" height = "350">
+</p>
+
+
+
+
+In order for both the actor and the critic to interact with the state the following  convolutional networks were used.
+
+
+<p align="center">
+<img src="https://github.com/khuss/RL_Network_Routing/blob/main/Images/NN.png" width="800" height = "350">
+</p>
+
 
 ## Getting started
 
 To get started download and install the packages in the requirements file:
 
 `pip install -r requirements.txt`
+
+Clone the repository with either `ssh` or `https`, alternatively download the files seperately to build your own model and test.
 
 Follow the example Notebook available in the repo to load the `Network_environment`, `A2C_agent`. A number of episodes is then created for training or testing the model.
 
@@ -54,6 +75,20 @@ Episodes consists of randomly filled queues, and the agent will either train on 
 
 The following results compare our trained agent with a random agent after training on 3000 episodes.
 
+
+
+<p align="center">
+<img src="https://github.com/khuss/RL_Network_Routing/blob/main/Images/SecondModel_Score.png" width="800" height = "350">
+</p>
+
+
+
 This proves that the agent has learned to adapt its choices based on the content of the qeueus. 
+
+
+<p align="center">
+<img src="https://github.com/khuss/RL_Network_Routing/blob/main/Images/SecondModel_Runtime.png" width="800" height = "350">
+</p>
+
 
 It would now be interested to connect the environment to a traffic generator or real traffic and observe the variety of metrics available to compare to currently used Network traffic controllers.
